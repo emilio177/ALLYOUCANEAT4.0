@@ -1,0 +1,120 @@
+/* Reset de estilos y estilos base */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+    background-color: #1c1c1c; /* Fondo oscuro */
+    color: #fff; /* Texto blanco */
+}
+
+nav {
+    background-color: #333; /* Barra de navegación oscura */
+    padding: 10px;
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+}
+
+nav a {
+    color: #fff;
+    text-decoration: none;
+    margin: 0 10px;
+    font-size: 16px;
+    transition: color 0.3s ease;
+}
+
+nav a:hover {
+    color: #00bcd4; /* Color al pasar el mouse */
+}
+
+#menu-icon {
+    display: none;
+    cursor: pointer;
+}
+
+#menu-links {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+#fechaForm {
+    margin: 20px;
+    text-align: center;
+}
+
+form label {
+    color: #00bcd4;
+    margin-right: 10px;
+}
+
+form input {
+    padding: 5px;
+    margin-right: 10px;
+}
+
+form button {
+    background-color: #00bcd4;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+form button:hover {
+    background-color: #009688;
+}
+
+#columnchart_material {
+    margin: 20px;
+}
+
+/* Estilos futuristas */
+.container {
+    max-width: 800px;
+    margin: auto;
+    border: 2px solid #00bcd4;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #1c1c1c;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+#menu-icon {
+    display: block;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+#menu-links {
+    display: none;
+}
+#columnchart_material {
+    margin: 20px;
+    height: 800px; /* Ajusta la altura de acuerdo a tus necesidades */
+}
+#menu-links.active {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 60px;
+    right: 0;
+    background-color: #333;
+    width: 100%;
+    text-align: center;
+}
+
+@media screen and (max-width: 768px) {
+    nav {
+        text-align: right;
+    }
+
+    nav a {
+        display: none;
+    }
+
+    #menu-icon {
+        display: block;
+    }
+}

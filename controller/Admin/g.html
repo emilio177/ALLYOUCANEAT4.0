@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Gráfico de Ventas por Período</title>
+    <script src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        nav {
+            background-color: #333;
+            padding: 10px;
+            color: white;
+            text-align: center;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-right: 20px;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 16px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #4caf50;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #columnchart_material {
+            width: 800px;
+            height: 500px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+
+    <form id="fechaForm">
+        <label for="fechaInicio">Fecha Inicio:</label>
+        <input type="date" id="fechaInicio" name="fechaInicio" required>
+
+        <label for="fechaFinal">Fecha Final:</label>
+        <input type="date" id="fechaFinal" name="fechaFinal" required>
+
+        <button type="button" onclick="obtenerDatos()">Generar Gráfico</button>
+    </form>
+
+    <div id="columnchart_material"></div>
+
+    <script type="text/javascript">
+        function obtenerDatos() {
+            var fechaInicio = $('#fechaInicio').val();
+            var fechaFinal = $('#fechaFinal').val();
+
+            // Realiza la petición AJAX al controlador
+            $.ajax({
+                url: 'ctrlPanel.php?opc=5',
+                type: 'POST',
+                data: { fechaInicio: fechaInicio, fechaFinal: fechaFinal },
+                dataType: 'json',
+                success: function (data) {
+                    // Llama a la función para dibujar el gráfico con los datos recibidos
+                    dibujarGrafico(data);
+                },
+                error: function (error) {
+                    console.error('Error en la petición AJAX:', error);
+                }
+            });
+        }
+
+        function dibujarGrafico(data) {
+            google.charts.load('current', { 'packages': ['corechart'] });
+            google.charts.setOnLoadCallback(function () {
+                var chartData = new google.visualization.DataTable();
+                chartData.addColumn('string', 'Fecha');
+                chartData.addColumn('number', 'Cantidad');
+
+                for (var i = 0; i < data.length; i++) {
+                    chartData.addRow([data[i].fecha, data[i].cantidad]);
+                }
+
+                var options = {
+                    chart: {
+                        title: 'Ventas por Período',
+                        subtitle: 'Cantidad de Ventas por Fecha',
+                    }
+                };
+
+                var chart = new google.visualization.ColumnChart(document.getElementById('columnchart_material'));
+                chart.draw(chartData, options);
+            });
+        }
+    </script>
+
+</body>
+
+</html>
